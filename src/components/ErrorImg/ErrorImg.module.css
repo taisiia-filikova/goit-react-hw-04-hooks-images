@@ -1,0 +1,12 @@
+.wrapper {
+  margin: 0 auto;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.text {
+  margin-top: 20px;
+  color: #2238af;
+  font-weight: 700;
+  font-size: 24px;
+}
