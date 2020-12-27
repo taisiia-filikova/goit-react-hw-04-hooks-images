@@ -1,10 +1,25 @@
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import s from './Searchbar.module.css';
 
-function Searchbar({ onHandleSubmit, onSearchQueryChange, value }) {
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+function Searchbar({ onHandleSubmit }) {
+  const [query, setQuery] = useState('');
+
+  const onSubmit = evt => {
+    evt.preventDefault();
+    if (query.trim() === '') {
+      return toast.info('Please, enter something');
+    }
+    onHandleSubmit(query);
+    setQuery('');
+  };
+
   return (
     <header className={s.header}>
-      <form className={s.form} onSubmit={onHandleSubmit}>
+      <form className={s.form} onSubmit={onSubmit}>
         <button type="submit" className={s.button}>
           <span className={s.label}>Search</span>
         </button>
@@ -12,36 +27,19 @@ function Searchbar({ onHandleSubmit, onSearchQueryChange, value }) {
         <input
           className={s.input}
           type="text"
-          value={value}
+          value={query}
           autoComplete="off"
           autoFocus
-          placeholder="Search images and photos"
-          onChange={onSearchQueryChange}
+          placeholder="What do you want to find?"
+          onChange={({ target }) => setQuery(target.value)}
         />
       </form>
     </header>
   );
 }
-// <header className="Searchbar">
-//   <form className="SearchForm">
-//     <button type="submit" className="SearchForm-button">
-//       <span className="SearchForm-button-label">Search</span>
-//     </button>
-
-//     <input
-//       className="SearchForm-input"
-//       type="text"
-//       autocomplete="off"
-//       autofocus
-//       placeholder="Search images and photos"
-//     />
-//   </form>
-// </header>
 
 Searchbar.propTypes = {
   onHandleSubmit: PropTypes.func.isRequired,
-  onSearchQueryChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
 };
 
 export default Searchbar;
